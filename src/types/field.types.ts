@@ -15,4 +15,7 @@ type FieldAnalysis = {
 
 type FieldAnalysisMap = Map<string, FieldAnalysis>;
 
-export type { FieldAnalysis, FieldAnalysisMap };
+type ElementType = FieldAnalysis["itemType"];
+type ElementBase = Exclude<ElementType, "mixed" | undefined>;
+
+export type { FieldAnalysis, FieldAnalysisMap, ElementType, ElementBase };
