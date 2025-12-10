@@ -16,4 +16,4 @@ type IdType<TName extends string> = `typeof ${IdElement<TName>}`;
 
 type EmptyArrTypeDef<T extends Primitive> = `readonly ${T}[]` | `${T}[]`;
 
-export type { EleType, EmptyArrTypeDef, IdElement, IdType, Primitive, SegmentDef, TNameId };
+export type { EleType, EmptyArrTypeDef, Flex, IdElement, IdType, Primitive, SegmentDef, TNameId };
