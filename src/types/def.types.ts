@@ -1,5 +1,5 @@
 import type { ElementBase } from "./field.types";
-import type { EmptyArrTypeDef, Flex, IdType, Primitive, SegmentDef } from "./gen.types";
+import type { ArrayTypeDef, Flex, IdType, Primitive, SegmentDef } from "./gen.types";
 
 type TypeDefUnion<T extends Primitive> = `"${T}" | "${T}"`;
 
@@ -18,7 +18,7 @@ type SplitReadonlyTypeDef<TName extends string, TBase extends ElementBase = "str
 
 type TypeDef<TName extends string, T extends Primitive, TBase extends ElementBase> =
 	| ((SplitTypeDef<TName, TBase> & {}) | (SplitReadonlyTypeDef<TName, TBase> & {}))
-	| (EmptyArrTypeDef<TBase> & {})
+	| (ArrayTypeDef<TBase> & {})
 	| InLineTypeDef<T, TBase>;
 
 type GeneratedDefs<T extends Primitive, TName extends string, TBase extends ElementBase = ElementBase> = {

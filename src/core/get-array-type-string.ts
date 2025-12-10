@@ -1,11 +1,11 @@
-import type { EmptyArrTypeDef, Primitive } from "@/types/gen.types";
+import type { ArrayTypeDef, Primitive } from "@/types/gen.types";
 
 type GetArrayTypeStringParams<T extends Primitive> = {
 	elementType: T;
 	readonly: boolean;
 };
 
-type GetArrayTypeStringType = <T extends Primitive>(params: GetArrayTypeStringParams<T>) => EmptyArrTypeDef<T>;
+type GetArrayTypeStringType = <T extends Primitive>(params: GetArrayTypeStringParams<T>) => ArrayTypeDef<T> & {};
 
 const getArrayTypeString: GetArrayTypeStringType = ({ elementType, readonly }) => {
 	return readonly ? (`readonly ${elementType}[]` as const) : (`${elementType}[]` as const);
