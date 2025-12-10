@@ -5,6 +5,7 @@ import { getArrayTypeString } from "@core/get-array-type-string";
 import { chunkArray } from "@utils/chunk-array";
 import { join } from "@utils/join";
 import { replacer } from "@utils/replacer";
+import { shouldSplitTypes } from "@utils/should-split-types";
 import { sortMixed } from "@utils/sort";
 
 import type { GeneratedDefs } from "@/types/def.types";
@@ -28,7 +29,7 @@ const generateLanguageNameType: GenerateLanguageNameTypeType = ({ languageNames,
 
 	const sortedNames = sortMixed(languageNames);
 
-	const shouldSplit = config.splitLargeTypes && sortedNames.length >= config.minItemsForSplit;
+	const shouldSplit = shouldSplitTypes(config, sortedNames);
 
 	if (!shouldSplit) {
 		//
