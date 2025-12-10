@@ -10,4 +10,8 @@ type TNameId<TName extends string> = `${TName}_${number}`;
 
 type SegmentDef<T extends Primitive, TName extends string> = `const ${TNameId<TName>} = [${T}, ${T}] as const;`;
 
-export type { EleType, Primitive, SegmentDef, TNameId };
+type IdElement<TName extends string> = `${TNameId<TName>}[number]`;
+
+type IdType<TName extends string> = `typeof ${IdElement<TName>}`;
+
+export type { EleType, IdElement, IdType, Primitive, SegmentDef, TNameId };
