@@ -32,15 +32,18 @@ type ElementBaseDef<TBase extends ElementBase = ElementBase> =
 
 type Literals = SelfPair<ElementBase, { left: false; outer: false; right: true }>;
 
+type Bools = `${true}` | `${false}`;
+
 type TypeDef<TName extends string, T extends Primitive, TBase extends ElementBase> =
 	| ((SplitTypeDef<TName, TBase> & {}) | (SplitReadonlyTypeDef<TName, TBase> & {}))
 	| (ArrayTypeDef<TBase> & {})
 	| (InLineExpr<T, TBase> & {})
 	| (InLineListExpr<T, TBase> & {})
 	| (ElementBaseDef & {})
-	| `${T}`
+	// | `${T}`
 	| `${ElementBase}`
 	| `${Literals}`
+	| Bools
 	| `${"any"}`
 	| (ArrayTypeDef<"any"> & {});
 
@@ -50,5 +53,27 @@ type GeneratedDefs<T extends Primitive, TName extends string, TBase extends Elem
 
 	segmentDefs: ReadonlyArray<SegmentDef<T, TName>> | never[];
 };
+
+// type TypeDefx<TName extends string, T extends Primitive, TBase extends ElementBase> =
+// 	| ((SplitTypeDef<TName, TBase> & {}) | (SplitReadonlyTypeDef<TName, TBase> & {}))
+// 	| (ArrayTypeDef<TBase> & {})
+// 	| (InLineExpr<T, TBase> & {})
+// 	| (InLineListExpr<T, TBase> & {})
+// 	| (ElementBaseDef & {})
+// 	| `${T}`
+// 	| `${ElementBase}`
+// 	| `${Literals}`
+// 	| `${"any"}`
+// 	| (ArrayTypeDef<"any"> & {});
+
+// type Gen<T extends Primitive, TName extends string, TBase extends ElementBase = ElementBase> = {
+// 	typeDef: TypeDefx<TName, T, TBase> & {};
+// };
+
+// const name = `LANG` as const;
+
+// const t = `string` as const;
+
+// type c = Gen<string, typeof name, ElementBase>;
 
 export type { GeneratedDefs };
