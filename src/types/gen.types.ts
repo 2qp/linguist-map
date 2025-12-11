@@ -26,7 +26,13 @@ type IdElement<TName extends string> = `${TNameId<TName>}[number]`;
 
 type IdType<TName extends string> = `typeof ${IdElement<TName>}`;
 
-type ArrayTypeDef<T extends Primitive> = `readonly ${T}[]` | `${T}[]`;
+type ListExpr<T extends Primitive> = `${T}[]`;
+
+type ReadonlyExpr<T extends Primitive> = `readonly ${T}`;
+
+type ReadonlyListExpr<T extends Primitive> = `${ListExpr<ReadonlyExpr<T>>}`;
+
+type ArrayTypeDef<T extends Primitive> = `${ReadonlyListExpr<T>}` | `${ListExpr<T>}`;
 
 export type {
 	ArrayTypeDef,
