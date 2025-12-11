@@ -8,13 +8,30 @@ type EleExpr<T extends Primitive, TBase extends ElementBase = "string"> = `((${T
 
 type EleListExpr<T extends Primitive, TBase extends ElementBase> = ArrayTypeDef<EleExpr<T, TBase>>;
 
-type Parenthesize<T extends string> = `(${T})`;
+type Parenthesize<T extends Primitive> = `(${T})`;
 
-type SelfPair<T extends ElementBase = ElementBase> = {
-	[K in T]: `${Parenthesize<K>} | ${Parenthesize<Flex<K>>}`;
+// type SelfPair<T extends ElementBase = ElementBase> = {
+// 	[K in T]: `${Parenthesize<K>} | ${Parenthesize<Flex<K>>}`;
+// }[T] & {};
+
+type MaybeParen<T extends Primitive, Should extends boolean = false> = Should extends true ? Parenthesize<T> : T;
+
+type SelfPairOpts = {
+	left?: boolean; // (base)
+	right?: boolean; // (flex)
+	outer?: boolean; // (whole)
+};
+
+type SelfPair<T extends ElementBase = ElementBase, Options extends SelfPairOpts = never> = {
+	[K in T]: MaybeParen<
+		`${MaybeParen<K, Options["left"] extends boolean ? Options["left"] : false>} | ${MaybeParen<Flex<K>, Options["right"] extends boolean ? Options["right"] : false>}`,
+		Options["outer"] extends boolean ? Options["outer"] : false
+	>;
 }[T] & {};
 
-type TEleExpr<T extends ElementBase = ElementBase> = `${Parenthesize<SelfPair<T> & {}>}` | `${Parenthesize<T>}`;
+type TEleExpr<T extends ElementBase = ElementBase> =
+	| `${Parenthesize<SelfPair<T, { left: true; right: true; outer: false }> & {}>}`
+	| `${Parenthesize<T>}`;
 
 type TEleListExpr<T extends ElementBase = ElementBase> = ArrayTypeDef<TEleExpr<T>>;
 
