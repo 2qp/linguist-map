@@ -6,6 +6,8 @@ type Flex<T extends ElementBase = "string"> = `${T} & {}`;
 
 type EleType<T extends Primitive, TBase extends ElementBase = "string"> = `((${T}) | (${Flex<TBase>}))` | `(${T})`;
 
+type EleTypeArray<T extends Primitive, TBase extends ElementBase> = ArrayTypeDef<EleType<T, TBase>>;
+
 type TNameId<TName extends string> = `${TName}_${number}`;
 
 type SegmentDef<T extends Primitive, TName extends string> = `const ${TNameId<TName>} = [${T}, ${T}] as const;`;
@@ -16,4 +18,4 @@ type IdType<TName extends string> = `typeof ${IdElement<TName>}`;
 
 type ArrayTypeDef<T extends Primitive> = `readonly ${T}[]` | `${T}[]`;
 
-export type { ArrayTypeDef, EleType, Flex, IdElement, IdType, Primitive, SegmentDef, TNameId };
+export type { ArrayTypeDef, EleType, EleTypeArray, Flex, IdElement, IdType, Primitive, SegmentDef, TNameId };
