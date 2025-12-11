@@ -1,5 +1,15 @@
 import type { ElementBase } from "./field.types";
-import type { ArrayTypeDef, EleExpr, Flex, IdType, Primitive, SegmentDef, TEleExpr, TEleListExpr } from "./gen.types";
+import type {
+	ArrayTypeDef,
+	EleExpr,
+	Flex,
+	IdType,
+	Primitive,
+	SegmentDef,
+	SelfPair,
+	TEleExpr,
+	TEleListExpr,
+} from "./gen.types";
 
 type TypeDefUnion<T extends Primitive> = `"${T}" | "${T}"`;
 
@@ -20,12 +30,18 @@ type ElementBaseDef<TBase extends ElementBase = ElementBase> =
 	| (TEleExpr<TBase & {}> & {})
 	| (TEleListExpr<TBase & {}> & {});
 
+type Literals = SelfPair<ElementBase, { left: false; outer: false; right: true }>;
+
 type TypeDef<TName extends string, T extends Primitive, TBase extends ElementBase> =
 	| ((SplitTypeDef<TName, TBase> & {}) | (SplitReadonlyTypeDef<TName, TBase> & {}))
 	| (ArrayTypeDef<TBase> & {})
 	| (InLineExpr<T, TBase> & {})
 	| (InLineListExpr<T, TBase> & {})
 	| (ElementBaseDef & {})
+	| `${T}`
+	| `${ElementBase}`
+	| `${Literals}`
+	| `${"any"}`
 	| (ArrayTypeDef<"any"> & {});
 
 type GeneratedDefs<T extends Primitive, TName extends string, TBase extends ElementBase = ElementBase> = {
