@@ -1,5 +1,5 @@
 import type { ElementBase } from "@/types/field.types";
-import type { EleType, Primitive } from "@/types/gen.types";
+import type { EleExpr, Primitive } from "@/types/gen.types";
 
 type CreateElementTypeParams<T, TBase extends ElementBase> = {
 	combined: T;
@@ -9,7 +9,7 @@ type CreateElementTypeParams<T, TBase extends ElementBase> = {
 
 type CreateElementTypeType = <T extends Primitive, TBase extends ElementBase>(
 	params: CreateElementTypeParams<T, TBase>,
-) => EleType<T, TBase> & {};
+) => EleExpr<T, TBase> & {};
 
 const createElementType: CreateElementTypeType = ({ base, combined, flexible }) => {
 	//
