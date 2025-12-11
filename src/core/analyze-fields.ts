@@ -1,4 +1,5 @@
 import type { FieldAnalysis, FieldAnalysisMap } from "@/types/field.types";
+import type { Primitive } from "@/types/gen.types";
 import type { TypeGenConfig } from "@/types/gen-config.types";
 
 type LanguageFields = Record<string, unknown>;
@@ -35,7 +36,7 @@ const analyzeFields: AnalyzeFieldsType = ({ data, config }) => {
 		const isNumber = nonArrayValues.some((v) => typeof v === "number");
 		const isString = nonArrayValues.some((v) => typeof v === "string");
 
-		const uniqueValues = new Set<unknown>([...nonArrayValues, ...arrayItems]);
+		const uniqueValues = new Set<Primitive>([...nonArrayValues, ...arrayItems]);
 
 		const sampleValues = [...uniqueValues].slice(0, 5);
 
