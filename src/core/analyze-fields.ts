@@ -1,9 +1,7 @@
 import type { FieldAnalysis, FieldAnalysisMap } from "@/types/field.types";
 import type { Primitive } from "@/types/gen.types";
 import type { TypeGenConfig } from "@/types/gen-config.types";
-
-type LanguageFields = Record<string, unknown>;
-type LanguageData = Record<string, LanguageFields>;
+import type { LanguageData } from "@/types/lang.types";
 
 type AnalyzeFieldsParams = {
 	data: LanguageData;
