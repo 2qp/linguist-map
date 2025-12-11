@@ -1,11 +1,11 @@
 import type { ElementBase } from "./field.types";
-import type { ArrayTypeDef, Flex, IdType, Primitive, SegmentDef } from "./gen.types";
+import type { ArrayTypeDef, EleExpr, Flex, IdType, Primitive, SegmentDef } from "./gen.types";
 
 type TypeDefUnion<T extends Primitive> = `"${T}" | "${T}"`;
 
-type InLineTypeDef<T extends Primitive, TBase extends ElementBase = "string"> =
-	| `((${TypeDefUnion<T>}) | (${Flex<TBase>}))`
-	| `(${TypeDefUnion<T>})`;
+type InLineExpr<T extends Primitive, TBase extends ElementBase> = EleExpr<TypeDefUnion<T>, TBase>;
+
+type InLineListExpr<T extends Primitive, TBase extends ElementBase> = ArrayTypeDef<EleExpr<TypeDefUnion<T>, TBase>>;
 
 type SplitTypeDef<TName extends string, TBase extends ElementBase = "string"> = Readonly<
 	`((${IdType<TName>} | ${IdType<TName>}) | (${Flex<TBase>}))[]` | `(${IdType<TName>} | ${IdType<TName>})[]`
@@ -19,7 +19,8 @@ type SplitReadonlyTypeDef<TName extends string, TBase extends ElementBase = "str
 type TypeDef<TName extends string, T extends Primitive, TBase extends ElementBase> =
 	| ((SplitTypeDef<TName, TBase> & {}) | (SplitReadonlyTypeDef<TName, TBase> & {}))
 	| (ArrayTypeDef<TBase> & {})
-	| InLineTypeDef<T, TBase>;
+	| (InLineExpr<T, TBase> & {})
+	| (InLineListExpr<T, TBase> & {});
 
 type GeneratedDefs<T extends Primitive, TName extends string, TBase extends ElementBase = ElementBase> = {
 	typeDef: TypeDef<TName, T, TBase> & {};
