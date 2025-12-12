@@ -1,7 +1,6 @@
 import { createElementType } from "@core/create-element-type";
 import { createSegmentDefs } from "@core/create-segment-defs";
 import { createSegmentRefs } from "@core/create-segment-refs";
-import { getArrayTypeString } from "@core/get-array-type-string";
 import { chunkArray } from "@utils/chunk-array";
 import { join } from "@utils/join";
 import { replacer } from "@utils/replacer";
@@ -14,7 +13,7 @@ import type { Primitive } from "@/types/gen.types";
 import type { TypeGenConfig } from "@/types/gen-config.types";
 
 type GenerateLanguageNameTypeParams<T extends Primitive, TName extends string, TBase extends ElementBase> = {
-	languageNames: T[];
+	languageNames: T[] | readonly T[];
 	typeName: TName;
 	baseType: TBase;
 	config: TypeGenConfig;
@@ -45,11 +44,7 @@ const generateLanguageNameType: GenerateLanguageNameTypeType = ({ languageNames,
 
 		const joinedLits = join(literals, " | " as const);
 
-		const typeDef = createElementType({
-			combined: joinedLits,
-			base: baseType,
-			flexible: config.allowFlexibleTypes,
-		});
+		const typeDef = createElementType({ combined: joinedLits, base: baseType, config });
 
 		return {
 			typeDef,
@@ -64,13 +59,9 @@ const generateLanguageNameType: GenerateLanguageNameTypeType = ({ languageNames,
 
 	const combinedType = join(segmentRefs, " | " as const);
 
-	const elementType = createElementType({
-		combined: combinedType,
-		base: baseType,
-		flexible: config.allowFlexibleTypes,
-	});
+	const typeDef = createElementType({ combined: combinedType, base: baseType, config });
 
-	const typeDef = getArrayTypeString({ elementType, readonly: config.allowFlexibleTypes });
+	// const typeDef = getArrayTypeString({ elementType, readonly: config.useReadonlyArrays });
 
 	return {
 		typeDef,
