@@ -26,6 +26,10 @@ type SplitReadonlyTypeDef<TName extends string, TBase extends ElementBase = "str
 	| `readonly (${IdType<TName>} | ${IdType<TName>})[]`
 >;
 
+type LiteralSegment<TName extends string, TBase extends ElementBase = "string"> = Readonly<
+	`((${IdType<TName>} | ${IdType<TName>}) | (${Flex<TBase>}))` | `(${IdType<TName>} | ${IdType<TName>})`
+>;
+
 type ElementBaseDef<TBase extends ElementBase = ElementBase> =
 	| (TEleExpr<TBase & {}> & {})
 	| (TEleListExpr<TBase & {}> & {});
@@ -39,6 +43,7 @@ type TypeDef<TName extends string, T extends Primitive, TBase extends ElementBas
 	| (ArrayTypeDef<TBase> & {})
 	| (InLineExpr<T, TBase> & {})
 	| (InLineListExpr<T, TBase> & {})
+	| (LiteralSegment<TName, TBase> & {})
 	| (ElementBaseDef & {})
 	// | `${T}`
 	| `${ElementBase}`
